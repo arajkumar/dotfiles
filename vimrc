@@ -133,14 +133,14 @@ set pastetoggle=<F11>
 
 " Indentation settings for using 2 spaces instead of tabs.
 " Do not change 'tabstop' from its default value of 8 with this setup.
-set shiftwidth=4
-set softtabstop=4
-set expandtab
+" set shiftwidth=4
+" set softtabstop=4
+" set expandtab
 
 " Indentation settings for using hard tabs for indent. Display tabs as
 " two characters wide.
-set shiftwidth=4
-set tabstop=4
+" set shiftwidth=4
+" set tabstop=4
 
 
 "------------------------------------------------------------
@@ -165,7 +165,7 @@ au!
  au BufRead,BufNewFile,BufEnter             *.cpp,*.c,*.h,*.hpp   set filetype=cpp
  au FileType                                *                     set nocindent smartindent
  au FileType                                *.c,*.cpp             set cindent
- au FileType                                *.cc,*.cxx            set cindent filetype=cpp tabstop=2 softtabstop=2 shiftwidth=2
+
  au BufRead,BufNewFile,BufEnter             *.cpp                 let g:qt_syntax=1
  " turn on qt syntax highlighting (a plugin)
  au BufNewFile,BufRead,BufEnter             *.c,*.h,*.cpp,*.hpp   let c_space_errors=1
@@ -177,8 +177,15 @@ augroup filetype
   au! BufRead,BufNewFile,BufEnter *Makefile*,*makefile*,*.mk set filetype=make
 augroup END
 
+" Python friends :)
+autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
+au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
+" Google chromium C++ files are suffixed with .cc
+autocmd FileType  *.cc,*.cxx  set cindent|set filetype=cpp|set tabstop=2|set softtabstop=2|set shiftwidth=2|set expandtab
 " In Makefiles, don't expand tabs to spaces, since we need the actual tabs
 autocmd FileType make set noexpandtab
+" Don't do your magics for other files. LOL!
+autocmd FileType * set tabstop=2|set shiftwidth=2|set noexpandtab
 "------------------------------------------------------------
 " execute pathogen#infect()
 "
@@ -190,6 +197,5 @@ inoremap <C-S-tab> <Esc>:tabprevious<CR>i
 inoremap <C-tab>   <Esc>:tabnext<CR>i
 inoremap <C-t>     <Esc>:tabnew<CR>
 
-if has("autocmd")
- au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
+" Move cursor to last editing position while opening a file.
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
