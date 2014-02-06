@@ -180,8 +180,9 @@ augroup END
 " Python friends :)
 autocmd FileType python set tabstop=4|set shiftwidth=4|set expandtab
 au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
+autocmd FileType *.gyp,*.gypi set tabstop=2|set shiftwidth=2|set expandtab|set filetype=python|set syntax=python
 " Google chromium C++ files are suffixed with .cc
-autocmd FileType  *.cc,*.cxx  set cindent|set filetype=cpp|set tabstop=2|set softtabstop=2|set shiftwidth=2|set expandtab
+autocmd FileType  *.h,*.cc,*.cxx  set cindent|set filetype=cpp|set tabstop=2|set softtabstop=2|set shiftwidth=2|set expandtab
 " In Makefiles, don't expand tabs to spaces, since we need the actual tabs
 autocmd FileType make set noexpandtab
 " Don't do your magics for other files. LOL!
@@ -190,8 +191,8 @@ autocmd FileType * set tabstop=2|set shiftwidth=2|set noexpandtab
 " execute pathogen#infect()
 "
 " tab navigation like firefox
-nnoremap <C-S-tab> :tabprevious<CR>
-nnoremap <C-tab>   :tabnext<CR>
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right>   :tabnext<CR>
 nnoremap <C-t>     :tabnew<CR>
 inoremap <C-S-tab> <Esc>:tabprevious<CR>i
 inoremap <C-tab>   <Esc>:tabnext<CR>i
