@@ -290,7 +290,8 @@ autocmd FileType *.gyp,*.gypi set filetype=python syntax=python
 " Don't do your magics for other files.
 " autocmd FileType * set tabstop=2|set shiftwidth=2|set noexpandtab
 "------------------------------------------------------------
-" execute pathogen#infect()
+execute pathogen#infect()
+filetype plugin indent on
 "
 " tab navigation like firefox
 nnoremap <C-Left> :tabprevious<CR>
@@ -307,3 +308,14 @@ set undofile                " Save undo's after file closes
 set undodir=$HOME/.vim/undo " where to save undo histories
 set undolevels=1000         " How many undos
 set undoreload=10000        " number of lines to save for undo
+
+" CtrlP related mappings
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+if executable('ag')
+  " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
