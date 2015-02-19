@@ -10,6 +10,15 @@
 "
 " These options and commands enable some very useful features in Vim, that
 " no user should have to live without.
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
 "auto reload .vimrc when changed, this avoids reopening vim
 autocmd! bufwritepost .vimrc source %
@@ -32,8 +41,10 @@ set smartindent
 set tabstop=2        " tab width is 4 spaces
 set shiftwidth=2     " indent also with 4 spaces
 set expandtab        " expand tabs to spaces
-" wrap lines at 120 chars. 80 is somewaht antiquated with nowadays displays.
-set textwidth=120
+" wrap lines at 80 chars.
+set textwidth=80
+" show textwidth line
+set colorcolumn=80
 " define ',' is leader key
 let mapleader = ","
 
@@ -51,8 +62,6 @@ endif
 if has("win32")
     set bs=2
 endif
-" show textwidth line
-set colorcolumn=120
 highlight ColorColumn ctermbg=236
 " show trailing whitespaces
 " match ExtraWS /\s\+$/
@@ -72,7 +81,7 @@ set hidden
 
 " It happens so oftern that I type :Q instead of :q that it makes sense to make :Q just working. :Q is not used
 " anyway by vim.
-" command Q q
+command Q q
 
 " Set ultisnips triggers
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -88,31 +97,6 @@ let g:SuperTabDefaultCompletionType = 'context'
 let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 let g:SuperTabLongestHighlight=1
 let g:SuperTabLongestEnhanced=1
-
-" Enhanced keyboard mappings
-"
-" unindent with Shift-Tab
-imap <S-Tab> <C-o><<
-
-" in normal mode F2 will save the file
-nmap <F2> :w<CR>
-" in insert mode F2 will exit insert, save, enters insert again
-imap <F2> <ESC>:w<CR>i
-
-
-"map F3 and SHIFT-F3 to toggle spell checking
-nmap <F3> :setlocal spell spelllang=en<CR>
-imap <F3> <ESC>:setlocal spell spelllang=en<CR>i
-nmap <S-F3> :setlocal spell spelllang=<CR>
-imap <S-F3> <ESC>:setlocal spell spelllang=<CR>i
-
-" switch between header/source with F4 in C/C++ using a.vim
-nmap <F4> :A<CR>
-imap <F4> <ESC>:A<CR>i
-
-" currently S-F4 does not work in KDE konsole. Don't know why.
-nmap <S-F4> :AV<CR>
-imap <S-F4> <ESC>:AV<CR>i
 
 " recreate tags file with F5
 map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
@@ -292,15 +276,6 @@ autocmd FileType *.gyp,*.gypi set filetype=python syntax=python
 "------------------------------------------------------------
 execute pathogen#infect()
 filetype plugin indent on
-"
-" tab navigation like firefox
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right>   :tabnext<CR>
-nnoremap <C-t>     :tabnew<CR>
-inoremap <C-S-tab> <Esc>:tabprevious<CR>i
-inoremap <C-tab>   <Esc>:tabnext<CR>i
-inoremap <C-t>     <Esc>:tabnew<CR>
-
 " Move cursor to last editing position while opening a file.
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
