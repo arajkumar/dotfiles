@@ -23,6 +23,9 @@ noremap <Right> <NOP>
 "auto reload .vimrc when changed, this avoids reopening vim
 autocmd! bufwritepost .vimrc source %
 
+" disable swap files
+set noswapfile
+
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
@@ -79,10 +82,6 @@ set wildmenu
 " allow changeing buffers without saving them
 set hidden
 
-" It happens so oftern that I type :Q instead of :q that it makes sense to make :Q just working. :Q is not used
-" anyway by vim.
-command Q q
-
 " Set ultisnips triggers
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -128,11 +127,6 @@ if ! has('gui_running')
     au InsertLeave * set timeoutlen=10
   augroup END
 endif
-
-" my macros
-" surround variable name with ${...}
-
-let @s='bi${ea}'
 
 "------------------------------------------------------------
 " Must have options {{{1
@@ -271,13 +265,13 @@ autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
 autocmd FileType *.gyp,*.gypi set filetype=python syntax=python
 
-" Don't do your magics for other files.
-" autocmd FileType * set tabstop=2|set shiftwidth=2|set noexpandtab
-"------------------------------------------------------------
-execute pathogen#infect()
+" Pathogen plugin
+silent! execute pathogen#infect()
+
 filetype plugin indent on
 " Move cursor to last editing position while opening a file.
-autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+au BufWinLeave * mkview
+au BufWinEnter * silent loadview
 
 set undofile                " Save undo's after file closes
 set undodir=$HOME/.vim/undo " where to save undo histories
