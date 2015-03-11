@@ -54,12 +54,11 @@ let mapleader = ","
 " Enable syntax highlighting
 syntax on
 
+colorscheme desert
 if has("gui_running")
-    colorscheme wombat
     set gfn=DejaVu_Sans_Mono:h10:cANSI
 else
     set t_Co=256
-"    colorscheme wombat256
 endif
 " Make backspace working on Windows
 if has("win32")
