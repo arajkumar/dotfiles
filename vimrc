@@ -26,6 +26,9 @@ autocmd! bufwritepost .vimrc source %
 " disable swap files
 set noswapfile
 
+" enable clipboard for gvim
+set clipboard=unnamed
+
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
