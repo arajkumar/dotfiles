@@ -23,6 +23,12 @@ noremap <Right> <NOP>
 "auto reload .vimrc when changed, this avoids reopening vim
 autocmd! bufwritepost .vimrc source %
 
+" Remove all trailing whitespace on save
+" http://stackoverflow.com/questions/356126
+autocmd BufWritePre FileType c,cpp,java,php,ruby,python :%s/\s\+$//e
+" Highlight trailing space
+match Todo /\s\+$/
+
 " disable swap files
 set noswapfile
 
