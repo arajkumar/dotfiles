@@ -32,6 +32,9 @@ match Todo /\s\+$/
 " disable swap files
 set noswapfile
 
+set nobackup
+set nowritebackup
+
 " enable clipboard for gvim
 set clipboard=unnamed
 
@@ -63,7 +66,7 @@ let mapleader = ","
 " Enable syntax highlighting
 syntax on
 
-colorscheme desert
+silent! colorscheme desert
 if has("gui_running")
     set gfn=DejaVu_Sans_Mono:h10:cANSI
 else
