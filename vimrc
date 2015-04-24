@@ -29,6 +29,9 @@ autocmd BufWritePre FileType c,cpp,java,php,ruby,python :%s/\s\+$//e
 " Highlight trailing space
 match Todo /\s\+$/
 
+" Always set unix line ending
+set ff=unix
+
 " disable swap files
 set noswapfile
 
