@@ -30,7 +30,7 @@ autocmd BufWritePre FileType c,cpp,java,php,ruby,python :%s/\s\+$//e
 match Todo /\s\+$/
 
 " Always set unix line ending
-set ff=unix
+set fileformat=unix
 
 " disable swap files
 set noswapfile
