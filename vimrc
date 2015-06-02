@@ -76,8 +76,15 @@ autocmd! bufwritepost .vimrc source %
 " Remove all trailing whitespace on save
 " http://stackoverflow.com/questions/356126
 autocmd BufWritePre FileType c,cpp,java,php,ruby,python :%s/\s\+$//e
+
 " Highlight trailing space
-match Todo /\s\+$/
+highlight UnwanttedTab ctermbg=red guibg=darkred
+highlight TrailSpace guibg=red ctermbg=darkred
+autocmd ColorScheme * highlight UnwanttedTab ctermbg=red guibg=darkred
+autocmd ColorScheme * highlight TrailSpace guibg=red ctermbg=darkred
+match UnwanttedTab /\t/
+" match TrailSpace / \+$/
+match TrailSpace /\s\+$/
 
 " Always set unix line ending
 set fileformat=unix
