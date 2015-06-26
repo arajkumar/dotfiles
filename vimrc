@@ -131,6 +131,12 @@ syntax on
 silent! colorscheme desert
 if has("gui_running")
     set gfn=DejaVu_Sans_Mono:h10:cANSI
+    set guioptions-=m  "remove menu bar
+    set guioptions-=T  "remove toolbar
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
+    " Maximize gvim window (for an alternative on Windows, see simalt below).
+    set lines=2000 columns=2000
 else
     set t_Co=256
 endif
