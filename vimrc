@@ -340,8 +340,8 @@ nnoremap <C-L> :nohl<CR><C-L>
 autocmd BufRead,BufNewFile,BufEnter Makefile,makefile,GNUMakefile,*.mk set filetype=make noexpandtab
 
 " Python friends :)
-autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
-au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
+" autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
+" au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
 autocmd FileType *.gyp,*.gypi set filetype=python syntax=python
 
 " Pathogen plugin
