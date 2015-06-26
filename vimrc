@@ -10,14 +10,18 @@
 "
 " These options and commands enable some very useful features in Vim, that
 " no user should have to live without.
-let vundleInstalled=1
+
+" Always set unix line ending
+set fileformat=unix
+
+let vundleInstalled=0
 let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
 if !filereadable(vundle_readme)
   echo "Installing Vundle.."
   echo ""
   silent !mkdir -p ~/.vim/bundle
   silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/Vundle.vim
-  let vundleInstalled=0
+  let vundleInstalled=1
 endif
 
 
@@ -41,7 +45,7 @@ Bundle 'Syntastic'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-if vundleInstalled == 0
+if vundleInstalled == 1
   echo "Installing Bundles, please ignore key map error messages"
   echo ""
   :BundleInstall
@@ -86,8 +90,6 @@ match UnwanttedTab /\t/
 " match TrailSpace / \+$/
 match TrailSpace /\s\+$/
 
-" Always set unix line ending
-set fileformat=unix
 
 " disable swap files
 set noswapfile
