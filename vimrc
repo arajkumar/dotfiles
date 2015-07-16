@@ -118,8 +118,6 @@ set smartindent
 set tabstop=2        " tab width is 4 spaces
 set shiftwidth=2     " indent also with 4 spaces
 set expandtab        " expand tabs to spaces
-" wrap lines at 80 chars.
-set textwidth=80
 " show textwidth line
 set colorcolumn=80
 " define ',' is leader key
@@ -339,6 +337,7 @@ nnoremap <C-L> :nohl<CR><C-L>
 
 autocmd BufRead,BufNewFile,BufEnter Makefile,makefile,GNUMakefile,*.mk set filetype=make noexpandtab
 
+autocmd FileType java set tabstop=4| set shiftwidth=4 | set expandtab
 " Python friends :)
 " autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 " au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
