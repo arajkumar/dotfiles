@@ -119,7 +119,7 @@ set tabstop=2        " tab width is 4 spaces
 set shiftwidth=2     " indent also with 4 spaces
 set expandtab        " expand tabs to spaces
 " show textwidth line
-set colorcolumn=80
+silent! set colorcolumn=80
 " define ',' is leader key
 let mapleader = ","
 
@@ -351,10 +351,10 @@ filetype plugin indent on
 au BufWinLeave * mkview
 au BufWinEnter * silent loadview
 
-set undofile                " Save undo's after file closes
-set undodir=$HOME/.vim/undo " where to save undo histories
-set undolevels=1000         " How many undos
-set undoreload=10000        " number of lines to save for undo
+silent! set undofile                " Save undo's after file closes
+silent! set undodir=$HOME/.vim/undo " where to save undo histories
+silent! set undolevels=1000         " How many undos
+silent! set undoreload=10000        " number of lines to save for undo
 
 " CtrlP related mappings
 let g:ctrlp_map = '<c-p>'
