@@ -348,8 +348,8 @@ silent! execute pathogen#infect()
 
 filetype plugin indent on
 " Move cursor to last editing position while opening a file.
-au BufWinLeave * mkview
-au BufWinEnter * silent loadview
+" au BufWinLeave * mkview
+" au BufWinEnter * silent loadview
 
 silent! set undofile                " Save undo's after file closes
 silent! set undodir=$HOME/.vim/undo " where to save undo histories
