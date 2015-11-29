@@ -364,9 +364,29 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
   \ 'file': '\v\.(exe|so|dll|a|o|jpg|jpeg|png|gif|bmp|JPG|class|jar|lib)$',
   \ }
+
+let g:ctrlp_match_window = 'results:100' " overcome limit imposed by max height
+let g:ctrlp_max_files = 0
+let g:ctrlp_max_depth = 400
+
 if executable('ag')
   " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_user_command = {
+      \ 'types': {
+        \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ },
+      \ 'fallback': 'ag -l --nocolor -g "" %s'
+      \ }
+else
+    let g:ctrlp_user_command = {
+      \ 'types': {
+        \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
+        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+        \ },
+      \ 'fallback': 'find %s -type f'
+      \ }
 endif
