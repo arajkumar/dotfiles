@@ -39,7 +39,9 @@ Plugin 'kien/ctrlp.vim'
 " Alternate files quickly
 Plugin 'a.vim'
 " uber awesome syntax and errors highlighter
-Bundle 'Syntastic'
+Plugin 'Shougo/unite.vim'
+" Swift syntax highlight
+Plugin 'keith/swift.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
