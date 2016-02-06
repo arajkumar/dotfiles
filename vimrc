@@ -99,9 +99,6 @@ set noswapfile
 set nobackup
 set nowritebackup
 
-" enable clipboard for gvim
-set clipboard=unnamed
-
 " set UTF-8 encoding
 set enc=utf-8
 set fenc=utf-8
