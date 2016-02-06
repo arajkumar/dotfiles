@@ -92,10 +92,10 @@ match UnwanttedTab /\t/
 " match TrailSpace / \+$/
 match TrailSpace /\s\+$/
 
-
+" set relative number display
+set relativenumber
 " disable swap files
 set noswapfile
-
 set nobackup
 set nowritebackup
 
