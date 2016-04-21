@@ -15,13 +15,18 @@
 set fileformat=unix
 
 let vundleInstalled=0
-let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
+let vundle_readme=expand('$HOME/.vim/bundle/Vundle.vim/README.md')
+
 if !filereadable(vundle_readme)
   echo "Installing Vundle.."
   echo ""
-  silent !mkdir -p ~/.vim/bundle
-  silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/Vundle.vim
-  let vundleInstalled=1
+  let vundlePath='$HOME/.vim/bundle/Vundle.vim'
+  if has("win32unix")
+    let vundlePath=system('cygpath -m '.vundlePath)
+  endif
+  silent !mkdir -p $HOME/.vim/bundle
+  let dummy=system('git clone https://github.com/gmarik/vundle'.' '.vundlePath)
+  let vundleInstalled = 1
 endif
 
 
@@ -29,7 +34,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=$HOME/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle, required
