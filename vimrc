@@ -11,6 +11,8 @@
 " These options and commands enable some very useful features in Vim, that
 " no user should have to live without.
 
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+
 " Always set unix line ending
 set fileformat=unix
 
@@ -47,6 +49,8 @@ Plugin 'a.vim'
 Plugin 'Shougo/unite.vim'
 " Swift syntax highlight
 Plugin 'keith/swift.vim'
+" fzf, fast file lister
+Plugin 'junegunn/fzf'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
