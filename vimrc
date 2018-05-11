@@ -137,7 +137,11 @@ syntax on
 
 silent! colorscheme desert
 if has("gui_running")
-    set gfn=Source\ Code\ Pro\ Medium:h12:cDEFAULT
+    if has('win32') || has('gui_macvim')
+        set guifont=Source\ Code\ Pro\ Medium:h18
+    else
+        set guifont=Source\ Code\ Pro\ Medium
+    endif
     set guioptions-=m  "remove menu bar
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
