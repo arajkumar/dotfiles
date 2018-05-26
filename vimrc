@@ -363,6 +363,9 @@ silent! set undofile                " Save undo's after file closes
 silent! set undodir=$HOME/.vim/undo " where to save undo histories
 silent! set undolevels=1000         " How many undos
 silent! set undoreload=10000        " number of lines to save for undo
+if !isdirectory(&undodir)
+    call mkdir(&undodir, "p")
+endif
 
 " CtrlP related mappings
 let g:ctrlp_map = '<c-p>'
