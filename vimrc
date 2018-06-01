@@ -140,7 +140,7 @@ if has("gui_running")
     if has('win32') || has('gui_macvim')
         set guifont=Source\ Code\ Pro\ Medium:h18
     else
-        set guifont=Source\ Code\ Pro\ Medium
+        set guifont=Source\ Code\ Pro\ Medium\ 12
     endif
     set guioptions-=m  "remove menu bar
     set guioptions-=T  "remove toolbar
