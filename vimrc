@@ -138,7 +138,7 @@ syntax on
 silent! colorscheme desert
 if has("gui_running")
     if has('win32') || has('gui_macvim')
-        set guifont=Source\ Code\ Pro\ Medium:h18
+        set guifont="Source\ Code\ Pro\ Medium:h18"
     else
         set guifont=Source\ Code\ Pro\ Medium\ 12
     endif
@@ -369,7 +369,11 @@ endif
 
 " CtrlP related mappings
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+if executable('fzf')
+    let g:ctrlp_cmd = 'FZF'
+else
+    let g:ctrlp_cmd = 'CtrlP'
+endif
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
@@ -392,6 +396,7 @@ if executable('ag')
         \ },
       \ 'fallback': 'ag -l --nocolor -g "" %s'
       \ }
+    let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 else
     let g:ctrlp_user_command = {
       \ 'types': {
