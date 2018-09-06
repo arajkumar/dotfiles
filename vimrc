@@ -372,11 +372,7 @@ endif
 
 " CtrlP related mappings
 let g:ctrlp_map = '<c-p>'
-if executable('fzf')
-    let g:ctrlp_cmd = 'FZF'
-else
-    let g:ctrlp_cmd = 'CtrlP'
-endif
+let g:ctrlp_cmd = 'FZF'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/]\.(git|hg|svn)$',
