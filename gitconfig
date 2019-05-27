@@ -1,0 +1,13 @@
+[user]
+	email = arunprasad.rajkumar@oracle.com
+	name = Arunprasad Rajkumar
+[rerere]
+	enabled = false
+[pack]
+	threads = 4
+[core]
+  editor = vim
+	precomposeUnicode = true
+  autoclrf = true
+[mergetool]
+	prompt = false

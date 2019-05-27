@@ -1,0 +1,17 @@
+[ui]
+username = arajkumar
+editor = vim
+merge = internal:merge3
+
+[extensions]
+strip =
+fetch =
+rebase =
+share =
+purge =
+histedit =
+patchbomb =
+record =
+extdiff=
+convert =
+hgext.bookmarks =
