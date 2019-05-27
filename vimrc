@@ -27,6 +27,8 @@ Plug 'vim-scripts/a.vim'
 Plug 'Shougo/unite.vim'
 " fzf, fast file lister
 Plug 'junegunn/fzf'
+" use vim-commentary to comment source code quickly
+Plug 'tpope/vim-commentary'
 
 " Initialize plugin system
 call plug#end()
