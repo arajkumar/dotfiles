@@ -1,13 +1,3 @@
-" URL: http://vim.wikia.com/wiki/Example_vimrc
-" Authors: http://vim.wikia.com/wiki/Vim_on_Freenode
-" Description: A minimal, but feature rich, example .vimrc. If you are a
-"              newbie, basing your first .vimrc on this file is a good choice.
-"              If you're a more advanced user, building your own .vimrc based
-"              on this file is still a good idea.
-
-"------------------------------------------------------------
-" Features {{{1
-"
 " These options and commands enable some very useful features in Vim, that
 " no user should have to live without.
 
@@ -16,64 +6,32 @@ let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " Always set unix line ending
 set fileformat=unix
 
-let vundleInstalled=0
-let vundle_readme=expand('$HOME/.vim/bundle/Vundle.vim/README.md')
-
-if !filereadable(vundle_readme)
-  echo "Installing Vundle.."
-  echo ""
-  let vundlePath='$HOME/.vim/bundle/Vundle.vim'
-  if has("win32unix")
-    let vundlePath=system('cygpath -m '.vundlePath)
-  endif
-  silent !mkdir -p $HOME/.vim/bundle
-  let dummy=system('git clone https://github.com/gmarik/vundle'.' '.vundlePath)
-  let vundleInstalled = 1
+if empty(glob('~/.vim/autoload/plug.vim'))
+  echo "Installing plug.vim ...\n"
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=$HOME/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-" Git plugin not hosted on GitHub
-Plugin 'kien/ctrlp.vim'
+" The ctrlp
+Plug 'kien/ctrlp.vim'
 " Alternate files quickly
-Plugin 'a.vim'
+Plug 'vim-scripts/a.vim'
 " uber awesome syntax and errors highlighter
-Plugin 'Shougo/unite.vim'
-" Swift syntax highlight
-Plugin 'keith/swift.vim'
+Plug 'Shougo/unite.vim'
 " fzf, fast file lister
-Plugin 'junegunn/fzf'
+Plug 'junegunn/fzf'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
+" Initialize plugin system
+call plug#end()
+
 filetype plugin indent on    " required
-
-if vundleInstalled == 1
-  echo "Installing Bundles, please ignore key map error messages"
-  echo ""
-  :BundleInstall
-endif
-
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
 
 inoremap <Up> <NOP>
 inoremap <Down> <NOP>
@@ -87,10 +45,11 @@ noremap <Right> <NOP>
 
 "auto reload .vimrc when changed, this avoids reopening vim
 autocmd! bufwritepost .vimrc source %
+autocmd! bufwritepost _vimrc source %
 
 " Remove all trailing whitespace on save
 " http://stackoverflow.com/questions/356126
-autocmd BufWritePre FileType c,cpp,java,php,ruby,python :%s/\s\+$//e
+autocmd BufWritePre FileType c,cpp,h,js,java,php,ruby,python :%s/\s\+$//e
 
 " Highlight trailing space
 highlight UnwanttedTab ctermbg=red guibg=darkred
@@ -104,6 +63,7 @@ match TrailSpace /\s\+$/
 " set relative number display
 set relativenumber
 set number
+
 " disable swap files
 set noswapfile
 set nobackup
@@ -114,10 +74,6 @@ set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
 
-" Set 'nocompatible' to ward off unexpected things that your distro might
-" have made, as well as sanely reset options when re-sourcing .vimrc
-set nocompatible
-
 " use indentation of previous line
 set autoindent
 " use intelligent indentation for C
@@ -127,6 +83,7 @@ set smartindent
 set tabstop=2        " tab width is 4 spaces
 set shiftwidth=2     " indent also with 4 spaces
 set expandtab        " expand tabs to spaces
+
 " show textwidth line
 silent! set colorcolumn=80
 " define ',' is leader key
@@ -151,11 +108,13 @@ if has("gui_running")
 else
     set t_Co=256
 endif
+
 " Make backspace working on Windows
 if has("win32")
     set bs=2
 endif
 highlight ColorColumn ctermbg=236
+
 " show trailing whitespaces
 " match ExtraWS /\s\+$/
 " highlight all search results
@@ -167,39 +126,6 @@ set comments=sl:/*,mb:\ *,elx:\ */
 " use intelligent file completion like in the bash
 set wildmode=longest:full
 set wildmenu
-" allow changeing buffers without saving them
-set hidden
-
-" Set ultisnips triggers
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" superTab
-" uncomment the next line to disable superTab
-"let loaded_supertab = 1
-
-set completeopt=menu,longest
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabLongestHighlight=1
-let g:SuperTabLongestEnhanced=1
-
-" recreate tags file with F5
-map <F5> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" remove trailing spaces
-map <F10> :%s/\s\+$//<CR>
-
-" goto definition with F12
-map <F12> <C-]>
-
-" open definition in new split
-"map <S-F12> <C-W> <C-]>
-map <S-F12> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-
-" Taglist
-let Tlist_WinWidth = 40
 
 " airline
 " use powerline fonts to show beautiful symbols
@@ -242,15 +168,8 @@ set hidden
 " set confirm
 " set autowriteall
 
-" Better command-line completion
-set wildmenu
-
 " Show partial commands in the last line of the screen
 set showcmd
-
-" Highlight searches (use <C-L> to temporarily turn off highlighting; see the
-" mapping of <C-L> below)
-set hlsearch
 
 " Modelines have historically been a source of security vulnerabilities. As
 " such, it may be a good idea to disable them and use the securemodelines
@@ -298,7 +217,7 @@ set visualbell
 set t_vb=
 
 " Enable use of the mouse for all modes
-set mouse=a
+" set mouse=a
 
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
@@ -312,52 +231,20 @@ set pastetoggle=<F11>
 
 
 "------------------------------------------------------------
-" Indentation options {{{1
-"
-" Indentation settings according to personal preference.
-
-" Indentation settings for using 2 spaces instead of tabs.
-" Do not change 'tabstop' from its default value of 8 with this setup.
-" set shiftwidth=4
-" set softtabstop=4
-" set expandtab
-
-" Indentation settings for using hard tabs for indent. Display tabs as
-" two characters wide.
-" set shiftwidth=4
-" set tabstop=4
-
-
-"------------------------------------------------------------
 " Mappings {{{1
 "
 " Useful mappings
 
-" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
-" which is the default
-map Y y$
 command! Q q
 command! W w
-
-" Map <C-L> (redraw screen) to also turn off search highlighting until the
-" next search
-nnoremap <C-L> :nohl<CR><C-L>
 
 autocmd BufRead,BufNewFile,BufEnter Makefile,makefile,GNUMakefile,*.mk set filetype=make noexpandtab
 
 autocmd FileType java set tabstop=4| set shiftwidth=4 | set expandtab
-" Python friends :)
+
 " autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 " au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
 autocmd FileType *.gyp,*.gypi set filetype=python syntax=python
-
-" Pathogen plugin
-silent! execute pathogen#infect()
-
-filetype plugin indent on
-" Move cursor to last editing position while opening a file.
-" au BufWinLeave * mkview
-" au BufWinEnter * silent loadview
 
 silent! set undofile                " Save undo's after file closes
 silent! set undodir=$HOME/.vim/undo " where to save undo histories
@@ -396,7 +283,7 @@ if executable('ag')
         \ },
       \ 'fallback': 'ag -l --nocolor -g "" %s'
       \ }
-    let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+    let $FZF_DEFAULT_COMMAND = 'ag -g "" --depth 20'
 else
     let g:ctrlp_user_command = {
       \ 'types': {
