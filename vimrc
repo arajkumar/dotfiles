@@ -94,8 +94,11 @@ syntax on
 
 silent! colorscheme desert
 if has("gui_running")
-    if has('win32') || has('gui_macvim')
+    if has('gui_macvim')
         set guifont="Source\ Code\ Pro\ Medium:h18"
+    elseif has('win32')
+        set guifont=Source\ Code\ Pro\ Medium:h12:cANSI
+        au GUIEnter * simalt ~x
     else
         set guifont=Source\ Code\ Pro\ Medium\ 12
     endif
@@ -256,7 +259,7 @@ endif
 
 " CtrlP related mappings
 let g:ctrlp_map = '<c-p>'
-if executable('fzf')
+if !has('win32')
     let g:ctrlp_cmd = 'FZF'
 else
     let g:ctrlp_cmd = 'CtrlP'
