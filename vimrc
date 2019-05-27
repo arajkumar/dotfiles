@@ -35,16 +35,6 @@ call plug#end()
 
 filetype plugin indent on    " required
 
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
-
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
-
 "auto reload .vimrc when changed, this avoids reopening vim
 autocmd! bufwritepost .vimrc source %
 autocmd! bufwritepost _vimrc source %
