@@ -1,8 +1,6 @@
 " These options and commands enable some very useful features in Vim, that
 " no user should have to live without.
 
-let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
-
 " Always set unix line ending
 set fileformat=unix
 
@@ -19,14 +17,11 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 call plug#begin('~/.vim/plugged')
 
-" The ctrlp
-Plug 'kien/ctrlp.vim'
 " Alternate files quickly
 Plug 'vim-scripts/a.vim'
-" uber awesome syntax and errors highlighter
-Plug 'Shougo/unite.vim'
 " fzf, fast file lister
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " use vim-commentary to comment source code quickly
 Plug 'tpope/vim-commentary'
 
@@ -76,10 +71,12 @@ set tabstop=2        " tab width is 4 spaces
 set shiftwidth=2     " indent also with 4 spaces
 set expandtab        " expand tabs to spaces
 
+set formatoptions-=cro                             "disable auto comments on new lines
+
 " show textwidth line
 silent! set colorcolumn=80
 " define ',' is leader key
-let mapleader = ","
+let mapleader = "\<Space>"
 
 " Enable syntax highlighting
 syntax on
@@ -249,42 +246,16 @@ if !isdirectory(&undodir)
     call mkdir(&undodir, "p")
 endif
 
-" CtrlP related mappings
-let g:ctrlp_map = '<c-p>'
-if !has('win32')
-    let g:ctrlp_cmd = 'FZF'
-else
-    let g:ctrlp_cmd = 'CtrlP'
-endif
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll|a|o|jpg|jpeg|png|gif|bmp|JPG|class|jar|lib)$',
-  \ }
+" fuzzy finder
+nnoremap <leader>p :FZF<cr>
+nnoremap <leader>o :Lines<cr>
+nnoremap <leader>t :Tags<cr>
+nnoremap <leader>r :Buffers<cr>
+nnoremap <c-p> :FZF<cr>
 
-let g:ctrlp_match_window = 'results:100' " overcome limit imposed by max height
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_depth = 400
-
-if executable('ag')
-  " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    let g:ctrlp_user_command = {
-      \ 'types': {
-        \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
-        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ },
-      \ 'fallback': 'ag -l --nocolor -g "" %s'
-      \ }
-    let $FZF_DEFAULT_COMMAND = 'ag -g "" --depth 20'
-else
-    let g:ctrlp_user_command = {
-      \ 'types': {
-        \ 1: ['.git', 'git -C %s ls-files --cached --exclude-standard --others'],
-        \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-        \ },
-      \ 'fallback': 'find %s -type f'
-      \ }
-endif
+"netrw
+let g:netrw_banner=0
+let g:netrw_winsize=20
+let g:netrw_liststyle=3
+let g:netrw_localrmdir='rm -r'
+nnoremap <leader>n :Lexplore<CR>
