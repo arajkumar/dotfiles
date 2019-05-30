@@ -4,9 +4,15 @@
 " Always set unix line ending
 set fileformat=unix
 
-if empty(glob('~/.vim/autoload/plug.vim'))
+if has('win32')
+    let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
+else
+    let $MYPLUGDIRECTORY = "~/.vim/plugged"
+endif
+
+if empty(glob($MYPLUGDIRECTORY))
   echo "Installing plug.vim ...\n"
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo $MYPLUGDIRECTORY/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -15,7 +21,7 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-call plug#begin('~/.vim/plugged')
+call plug#begin($MYPLUGDIRECTORY)
 
 " Alternate files quickly
 Plug 'vim-scripts/a.vim'
