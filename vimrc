@@ -47,6 +47,17 @@ match UnwanttedTab /\t/
 " match TrailSpace / \+$/
 match TrailSpace /\s\+$/
 
+" define space is leader key
+autocmd InsertEnter * let mapleader = "<NOP>"
+autocmd InsertLeave * let mapleader = "\<Space>"
+
+set t_Co=256                        "enable 256 colors
+
+set lazyredraw                                     "lazily redraw screen while executing macros, and other commands
+set ttyfast                                        "more characters will be sent to the screen for redrawing
+set ttimeout                                       "time waited for key press(es) to complete...
+set ttimeoutlen=50                                 " ...makes for a faster key response
+
 " set relative number display
 set relativenumber
 set number
@@ -75,31 +86,10 @@ set formatoptions-=cro                             "disable auto comments on new
 
 " show textwidth line
 silent! set colorcolumn=80
-" define ',' is leader key
-let mapleader = "\<Space>"
-
 " Enable syntax highlighting
 syntax on
 
 silent! colorscheme desert
-if has("gui_running")
-    if has('gui_macvim')
-        set guifont="Source\ Code\ Pro\ Medium:h18"
-    elseif has('win32')
-        set guifont=Source\ Code\ Pro\ Medium:h12:cANSI
-        au GUIEnter * simalt ~x
-    else
-        set guifont=Source\ Code\ Pro\ Medium\ 12
-    endif
-    set guioptions-=m  "remove menu bar
-    set guioptions-=T  "remove toolbar
-    set guioptions-=r  "remove right-hand scroll bar
-    set guioptions-=L  "remove left-hand scroll bar
-    " Maximize gvim window (for an alternative on Windows, see simalt below).
-    set lines=2000 columns=2000
-else
-    set t_Co=256
-endif
 
 " Make backspace working on Windows
 if has("win32")
@@ -124,15 +114,6 @@ set wildmenu
 let g:airline_powerline_fonts = 1
 " enable tab bar with buffers
 let g:airline#extensions#tabline#enabled = 1
-" fix the timout when leaving insert mode (see http://usevim.com/2013/07/24/powerline-escape-fix)
-if ! has('gui_running')
-  set ttimeoutlen=10
-  augroup FastEscape
-    autocmd!
-    au InsertEnter * set timeoutlen=0
-    au InsertLeave * set timeoutlen=10
-  augroup END
-endif
 
 "------------------------------------------------------------
 " Must have options {{{1
@@ -167,7 +148,6 @@ set showcmd
 " such, it may be a good idea to disable them and use the securemodelines
 " script, <http://www.vim.org/scripts/script.php?script_id=1876>.
 " set nomodeline
-
 
 "------------------------------------------------------------
 " Usability options {{{1
@@ -214,13 +194,6 @@ set t_vb=
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
 set cmdheight=2
-
-" Quickly time out on keycodes, but never time out on mappings
-set notimeout ttimeout ttimeoutlen=200
-
-" Use <F11> to toggle between 'paste' and 'nopaste'
-set pastetoggle=<F11>
-
 
 "------------------------------------------------------------
 " Mappings {{{1
