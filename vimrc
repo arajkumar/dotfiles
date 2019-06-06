@@ -42,7 +42,7 @@ autocmd! bufwritepost _vimrc source %
 
 " Remove all trailing whitespace on save
 " http://stackoverflow.com/questions/356126
-autocmd BufWritePre FileType c,cpp,h,js,java,php,ruby,python :%s/\s\+$//e
+autocmd BufWritePre FileType c,cpp,h,js,java,php,ruby,python,sh :%s/\s\+$//e
 
 " Highlight trailing space
 highlight UnwanttedTab ctermbg=red guibg=darkred
@@ -223,6 +223,12 @@ silent! set undolevels=1000         " How many undos
 silent! set undoreload=10000        " number of lines to save for undo
 if !isdirectory(&undodir)
     call mkdir(&undodir, "p")
+endif
+
+" The Silver Searcher
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
 endif
 
 " fuzzy finder
