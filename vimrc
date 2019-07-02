@@ -245,8 +245,13 @@ function! InvokeFZF()
     if isdirectory(globpath(getcwd(), '.hg')) && executable('hg')
       let $FZF_DEFAULT_COMMAND='hg locate --fullpath -I .'
     elseif isdirectory(globpath(getcwd(), '.git')) && executable('git')
-      let $FZF_DEFAULT_COMMAND='(git ls-files --cached & git ls-files --others
-                                \ --exclude-standard)'
+      if has('win32')
+          let $FZF_DEFAULT_COMMAND='(git ls-files --cached & git ls-files --others
+                                    \ --exclude-standard)'
+      else
+          let $FZF_DEFAULT_COMMAND='{ git ls-files --cached & git ls-files --others
+                                    \ --exclude-standard; }'
+      endif
     elseif executable('rg')
       let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
     endif
