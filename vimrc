@@ -237,12 +237,27 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
+" A wrapper function to invoke FZF after setting right
+" FZF_DEFAULT_COMMAND env variable based on the current
+" working directory's VCS
+function InvokeFZF()
+    " set fzf file finder based on the current working directory's VCS
+    if isdirectory(globpath(getcwd(), '.hg')) && executable('hg')
+      let $FZF_DEFAULT_COMMAND='hg locate --fullpath -I .'
+    elseif isdirectory(globpath(getcwd(), '.git')) && executable('git')
+      let $FZF_DEFAULT_COMMAND='git ls-files --cached --exclude-standard --others'
+    elseif executable('rg')
+      let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
+    endif
+    :FZF
+endfunction
+
 " fuzzy finder
-nnoremap <leader>p :FZF<cr>
+nnoremap <leader>p :call InvokeFZF()<cr>
 nnoremap <leader>o :Lines<cr>
 nnoremap <leader>t :Tags<cr>
 nnoremap <leader>r :Buffers<cr>
-nnoremap <c-p> :FZF<cr>
+nnoremap <c-p> :call InvokeFZF()<cr>
 
 "netrw
 let g:netrw_banner=0
@@ -251,11 +266,3 @@ let g:netrw_liststyle=3
 let g:netrw_localrmdir='rm -r'
 nnoremap <leader>n :Lexplore<CR>
 
-" set fzf file finder based on the current working directory's VCS
-if isdirectory(globpath(getcwd(), '.hg')) && executable('hg')
-  let $FZF_DEFAULT_COMMAND='hg locate --fullpath -I .'
-elseif isdirectory(globpath(getcwd(), '.git')) && executable('git')
-  let $FZF_DEFAULT_COMMAND='git ls-files --cached --exclude-standard --others'
-elseif executable('rg')
-  let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
-endif
