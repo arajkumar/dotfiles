@@ -207,7 +207,7 @@ set cmdheight=2
 " Useful mappings
 
 command! Q q
-command! W w
+command! W update
 
 autocmd BufRead,BufNewFile,BufEnter Makefile,makefile,GNUMakefile,*.mk set filetype=make noexpandtab
 
@@ -223,6 +223,12 @@ silent! set undolevels=1000         " How many undos
 silent! set undoreload=10000        " number of lines to save for undo
 if !isdirectory(&undodir)
     call mkdir(&undodir, "p")
+endif
+
+" The Silver Searcher
+if executable('rg')
+  " Use rg over grep
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 endif
 
 " The Silver Searcher
@@ -244,3 +250,12 @@ let g:netrw_winsize=20
 let g:netrw_liststyle=3
 let g:netrw_localrmdir='rm -r'
 nnoremap <leader>n :Lexplore<CR>
+
+" set fzf file finder based on the current working directory's VCS
+if isdirectory(globpath(getcwd(), '.hg')) && executable('hg')
+  let $FZF_DEFAULT_COMMAND='hg locate --fullpath -I .'
+elseif isdirectory(globpath(getcwd(), '.git')) && executable('git')
+  let $FZF_DEFAULT_COMMAND='git ls-files --cached --exclude-standard --others'
+elseif executable('rg')
+  let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
+endif
