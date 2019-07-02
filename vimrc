@@ -240,12 +240,13 @@ endif
 " A wrapper function to invoke FZF after setting right
 " FZF_DEFAULT_COMMAND env variable based on the current
 " working directory's VCS
-function InvokeFZF()
+function! InvokeFZF()
     " set fzf file finder based on the current working directory's VCS
     if isdirectory(globpath(getcwd(), '.hg')) && executable('hg')
       let $FZF_DEFAULT_COMMAND='hg locate --fullpath -I .'
     elseif isdirectory(globpath(getcwd(), '.git')) && executable('git')
-      let $FZF_DEFAULT_COMMAND='git ls-files --cached --exclude-standard --others'
+      let $FZF_DEFAULT_COMMAND='(git ls-files --cached & git ls-files --others
+                                \ --exclude-standard)'
     elseif executable('rg')
       let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
     endif
