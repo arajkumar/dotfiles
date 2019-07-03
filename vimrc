@@ -237,14 +237,19 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
 endif
 
+function! RunCmd(cmd)
+    :call system(a:cmd)
+    return v:shell_error
+endfunction
+
 " A wrapper function to invoke FZF after setting right
 " FZF_DEFAULT_COMMAND env variable based on the current
 " working directory's VCS
 function! InvokeFZF()
     " set fzf file finder based on the current working directory's VCS
-    if isdirectory(globpath(getcwd(), '.hg')) && executable('hg')
-      let $FZF_DEFAULT_COMMAND='hg locate --fullpath -I .'
-    elseif isdirectory(globpath(getcwd(), '.git')) && executable('git')
+    if RunCmd('hg root') == 0
+        let $FZF_DEFAULT_COMMAND='hg files --include .'
+    elseif RunCmd('git rev-parse --show-toplevel') == 0
       if has('win32')
           let $FZF_DEFAULT_COMMAND='(git ls-files --cached & git ls-files --others
                                     \ --exclude-standard)'
@@ -253,7 +258,7 @@ function! InvokeFZF()
                                     \ --exclude-standard; }'
       endif
     elseif executable('rg')
-      let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
+        let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
     endif
     :FZF
 endfunction
