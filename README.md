@@ -1,4 +1,4 @@
-myvimrc
+Dotfiles
 =======
 
-myvimrc
+Contains configuration files for various tools like Vim, Mercurial, Git,..
