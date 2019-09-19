@@ -1,5 +1,5 @@
 if has('gui_macvim')
-    set guifont="Source\ Code\ Pro\ Medium:h18"
+    set guifont=Source\ Code\ Pro\ Medium:h18
 elseif has('win32')
     set guifont=Source\ Code\ Pro\ Medium:h12:cANSI
     au GUIEnter * simalt ~x
