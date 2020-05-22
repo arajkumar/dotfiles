@@ -9,3 +9,7 @@ Tools
 - vim
 - ripgrep / ag
 - fzf
+
+License
+=======
+Hello world
