@@ -20,6 +20,9 @@ endif
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" Use CocTagFunc for vim tag operations. (C-])
+set tagfunc=CocTagFunc
+
 " set the runtime path to include Vundle and initialize
 call plug#begin($MYPLUGDIRECTORY)
 
@@ -31,6 +34,7 @@ Plug 'junegunn/fzf.vim'
 " use vim-commentary to comment source code quickly
 Plug 'tpope/vim-commentary'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Initialize plugin system
 call plug#end()
