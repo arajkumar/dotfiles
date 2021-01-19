@@ -35,7 +35,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-sleuth'
+" Plug 'vim-airline/vim-airline'
 
 " Initialize plugin system
 call plug#end()
@@ -371,14 +372,6 @@ set cmdheight=2
 
 command! Q q
 command! W update
-
-autocmd BufRead,BufNewFile,BufEnter Makefile,makefile,GNUMakefile,*.mk set filetype=make noexpandtab
-
-autocmd FileType java set tabstop=4| set shiftwidth=4 | set expandtab
-
-" autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
-" au BufEnter *.py set ai sw=4 ts=4 sta et fo=croql
-autocmd FileType *.gyp,*.gypi set filetype=python syntax=python
 
 silent! set undofile                " Save undo's after file closes
 silent! set undodir=$HOME/.vim/undo " where to save undo histories
