@@ -31,12 +31,17 @@ Plug 'vim-scripts/a.vim'
 " fzf, fast file lister
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'google/vim-jsonnet'
 " use vim-commentary to comment source code quickly
 Plug 'tpope/vim-commentary'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-sleuth'
-" Plug 'vim-airline/vim-airline'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/vim-gist'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" for seamless navigation between vim and tmux
+Plug 'christoomey/vim-tmux-navigator'
 
 " Initialize plugin system
 call plug#end()
@@ -258,6 +263,33 @@ set formatoptions-=cro                             "disable auto comments on new
 silent! set colorcolumn=80
 " Enable syntax highlighting
 syntax on
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    disable = {},
+  },
+  indent = {
+    enable = false,
+    disable = {},
+  },
+  ensure_installed = {
+    "c",
+    "cpp",
+    "go",
+    "java",
+    "json",
+    "python",
+    "toml",
+    "tsx",
+    "vim",
+    "yaml",
+  },
+}
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
+EOF
 
 silent! colorscheme desert
 
