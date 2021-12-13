@@ -264,15 +264,19 @@ silent! set colorcolumn=80
 " Enable syntax highlighting
 syntax on
 
+set nofoldenable
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
     disable = {},
+    additional_vim_regex_highlighting = false,
   },
   indent = {
-    enable = false,
-    disable = {},
+    enable = true,
   },
   ensure_installed = {
     "c",
