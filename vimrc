@@ -12,7 +12,7 @@ endif
 
 if empty(glob($MYPLUGDIRECTORY))
   echo "Installing plug.vim ...\n"
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+  silent !curl -fLo ~/.config/nvim/site/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
@@ -292,10 +292,10 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 EOF
 
-silent! colorscheme desert
+silent! colorscheme default
 
 " Make backspace working on Windows
 if has("win32")
