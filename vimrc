@@ -40,6 +40,7 @@ Plug 'mattn/vim-gist'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " for seamless navigation between vim and tmux
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'github/copilot.vim'
 
 " Initialize plugin system
 call plug#end()
