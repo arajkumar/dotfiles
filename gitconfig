@@ -5,9 +5,23 @@
 	enabled = false
 [pack]
 	threads = 4
+[push]
+	autoSetupRemote = true
 [core]
-  editor = vim
+	editor = vim
 	precomposeUnicode = true
-  autoclrf = true
+	autoclrf = true
+	excludesFile = ~/.gitignore
 [mergetool]
 	prompt = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[url "https://github.com/"]
+	insteadOf = ssh://git@github.com/
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+
