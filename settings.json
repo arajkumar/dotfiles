@@ -1,0 +1,56 @@
+{
+  "permissions": {
+    "deny": [
+      "Bash(git push*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "model": "opus[1m]",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": false,
+    "td-aiguide@td-aiguide": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "andrej-karpathy-skills@karpathy-skills": false,
+    "ponytail@ponytail": true,
+    "clangd-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "td-aiguide": {
+      "source": {
+        "source": "git",
+        "url": "git@github.com:timescale/td-aiguide.git"
+      },
+      "autoUpdate": true
+    },
+    "karpathy-skills": {
+      "source": {
+        "source": "github",
+        "repo": "forrestchang/andrej-karpathy-skills"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": true,
+  "tui": "fullscreen"
+}

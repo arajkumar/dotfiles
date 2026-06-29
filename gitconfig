@@ -1,17 +1,37 @@
 [user]
 	email = ar.arunprasad@gmail.com
 	name = Arunprasad Rajkumar
+	signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDiw/mX8RGGrv13oRgblpCj6rpM520gyC4qZQhSmZHBuMpRjp6Xbn2VHUj8VbZtff8iUkBK8RMEbn/PH1+vHvvzlN5llTgOw+8Rncqd/RnXkkYoeTf+MK+4f/nnZq1SXngQLKLDivvg1JynJFoOCr0288Ldvoy5WRxntMrSD/ggTo/1HGmPAnyaUrQX1rXYvWoUoCMmWxSBtf/ZpLALCpBjwYEyJvngd3Q4WcShmfLCrh/LIPqd3SISfYIpRoBpzXc/MUSO2O5xK5MgZZCtVmc8F5My//4FhQbm8XALjTsOnE6R/X0T8qdBO4orwHJ3uCdYpLuHvHnzBTxUCCA5fVwn arajkuma@ARAJKUMA-IN
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
+[commit]
+	# gpgsign = true
+[tag]
+	gpgsign = true
 [rerere]
-	enabled = false
+	enabled = true
 [pack]
 	threads = 4
 [push]
 	autoSetupRemote = true
+	default = current
+[alias]
+	pushf = push --force-with-lease
 [core]
 	editor = vim
 	precomposeUnicode = true
-	autoclrf = true
+	autocrlf = false
 	excludesFile = ~/.gitignore
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[diff]
+	algorithm = histogram
+[merge]
+	conflictstyle = zdiff3
 [mergetool]
 	prompt = false
 [filter "lfs"]
