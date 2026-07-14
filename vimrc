@@ -20,13 +20,13 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sleuth'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'branch': 'main', 'do': ':TSUpdate'}
 
 call plug#end()
 
 filetype plugin indent on
 
-autocmd! bufwritepost .vimrc source %
+autocmd BufWritePost *vimrc source %
 
 set hidden
 set nobackup
@@ -39,15 +39,26 @@ set signcolumn=yes
 " Remove all trailing whitespace on save
 autocmd BufWritePre FileType c,cpp,h,js,java,php,ruby,python,sh :%s/\s\+$//e
 
-highlight UnwanttedTab ctermbg=red guibg=darkred
-highlight TrailSpace guibg=red ctermbg=darkred
-autocmd ColorScheme * highlight UnwanttedTab ctermbg=red guibg=darkred
-autocmd ColorScheme * highlight TrailSpace guibg=red ctermbg=darkred
-match UnwanttedTab /\t/
-match TrailSpace /\s\+$/
+highlight UnwantedTab ctermbg=darkred guibg=darkred
+highlight TrailSpace ctermbg=red guibg=red
+autocmd ColorScheme * highlight UnwantedTab ctermbg=darkred guibg=darkred
+autocmd ColorScheme * highlight TrailSpace ctermbg=red guibg=red
+call matchadd('TrailSpace', '\s\+$')
 
-autocmd InsertEnter * let mapleader = "<NOP>"
-autocmd InsertLeave * let mapleader = "\<Space>"
+function! s:setup_unwanted_tab() abort
+  for m in getmatches()
+    if m.group ==# 'UnwantedTab'
+      call matchdelete(m.id)
+    endif
+  endfor
+  if index(['c','cpp','h','js','java','php','ruby','python','sh'], &filetype) >= 0
+    call matchadd('UnwantedTab', '\t')
+  endif
+endfunction
+augroup unwanted_tab
+  autocmd!
+  autocmd BufWinEnter,FileType * call s:setup_unwanted_tab()
+augroup END
 
 set lazyredraw
 set ttimeout
@@ -74,8 +85,6 @@ silent! set colorcolumn=80
 syntax on
 
 set nofoldenable
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
 
 lua <<EOF
 local opts = { noremap=true, silent=true }
@@ -85,7 +94,7 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 local on_attach = function(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -131,30 +140,18 @@ vim.lsp.config('ccls', {
 })
 
 vim.lsp.enable({ 'pyright', 'ts_ls', 'rust_analyzer', 'gopls', 'ccls' })
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    disable = {},
-    additional_vim_regex_highlighting = false,
-  },
-  indent = {
-    enable = false,
-  },
-  ensure_installed = {
-    "c",
-    "cpp",
-    "go",
-    "java",
-    "json",
-    "python",
-    "toml",
-    "tsx",
-    "vim",
-    "yaml",
-  },
+require'nvim-treesitter'.install {
+  'c', 'cpp', 'go', 'java', 'json', 'python', 'toml', 'tsx', 'vim', 'yaml',
 }
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'c', 'cpp', 'go', 'java', 'json', 'python', 'toml', 'tsx', 'vim', 'yaml' },
+  callback = function()
+    vim.treesitter.start()
+    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    vim.wo.foldmethod = 'expr'
+  end,
+})
 EOF
 
 silent! colorscheme default
@@ -192,24 +189,14 @@ if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 endif
 
-function! RunCmd(cmd)
-    :call system(a:cmd)
-    return v:shell_error
-endfunction
-
 function! InvokeFZF()
-    if RunCmd('git rev-parse --show-toplevel') == 0
-      if has('win32')
-          let $FZF_DEFAULT_COMMAND='(git ls-files --cached & git ls-files --others
-                                    \ --exclude-standard)'
-      else
-          let $FZF_DEFAULT_COMMAND='{ git ls-files --cached & git ls-files --others
-                                    \ --exclude-standard; }'
-      endif
+    call system('git rev-parse --show-toplevel')
+    if v:shell_error == 0
+      let $FZF_DEFAULT_COMMAND='git ls-files --cached --others --exclude-standard'
     elseif executable('rg')
         let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
     endif
-    :FZF
+    FZF
 endfunction
 
 nnoremap <leader>p :call InvokeFZF()<cr>
