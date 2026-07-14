@@ -1,10 +1,6 @@
 set fileformat=unix
 
-if has('win32')
-    let $MYPLUGDIRECTORY = "~/vimfiles/plugged"
-else
-    let $MYPLUGDIRECTORY = "~/.vim/plugged"
-endif
+let $MYPLUGDIRECTORY = "~/.vim/plugged"
 
 if empty(glob($MYPLUGDIRECTORY))
   echo "Installing plug.vim ...\n"
@@ -185,25 +181,11 @@ if !isdirectory(&undodir)
     call mkdir(&undodir, "p")
 endif
 
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-endif
-
-function! InvokeFZF()
-    call system('git rev-parse --show-toplevel')
-    if v:shell_error == 0
-      let $FZF_DEFAULT_COMMAND='git ls-files --cached --others --exclude-standard'
-    elseif executable('rg')
-        let $FZF_DEFAULT_COMMAND='rg --files --smart-case'
-    endif
-    FZF
-endfunction
-
-nnoremap <leader>p :call InvokeFZF()<cr>
+nnoremap <leader>p :GFiles<cr>
 nnoremap <leader>o :Lines<cr>
 nnoremap <leader>t :Tags<cr>
 nnoremap <leader>r :Buffers<cr>
-nnoremap <c-p> :call InvokeFZF()<cr>
+nnoremap <c-p> :GFiles<cr>
 
 let g:netrw_banner=0
 let g:netrw_winsize=20
