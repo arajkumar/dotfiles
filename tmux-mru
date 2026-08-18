@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# Window jumplist for tmux, vim Ctrl-o/Ctrl-i style.
+#   tmux-mru record <session>:<window-index>   (called by after-select-window hook)
+#   tmux-mru back | forward                    (called by key bindings)
+set -u
+
+hist="$HOME/.tmux/window-mru"
+posf="$hist.pos"
+flag="$hist.jumping"
+
+case "${1:-}" in
+  record)
+    # a jump triggered this selection: consume the flag, keep history and pos
+    [ -f "$flag" ] && { rm -f "$flag"; exit 0; }
+    # skip consecutive duplicates
+    [ "$(tail -n 1 "$hist" 2>/dev/null)" = "${2:-}" ] && exit 0
+    echo "$2" >> "$hist"
+    # keep only the 10 most recent entries
+    tail -n 10 "$hist" > "$hist.tmp" && mv "$hist.tmp" "$hist"
+    echo 0 > "$posf"
+    ;;
+  back|forward)
+    [ -f "$hist" ] || exit 0
+    # drop entries for windows that no longer exist
+    tmux list-windows -a -F '#S:#I' > "$hist.cur"
+    grep -Fxf "$hist.cur" "$hist" > "$hist.clean"
+    mv "$hist.clean" "$hist"; rm -f "$hist.cur"
+    pos=$(cat "$posf" 2>/dev/null || echo 0)
+    lines=$(wc -l < "$hist")
+    [ "$lines" -lt 2 ] && exit 0
+    [ "$1" = forward ] && [ "$pos" -eq 0 ] && exit 0
+    [ "$1" = back ] && pos=$((pos + 1)) || pos=$((pos - 1))
+    max=$((lines - 1))
+    [ "$pos" -gt "$max" ] && pos=$max
+    [ "$pos" -lt 0 ] && pos=0
+    target=$(tail -n $((pos + 1)) "$hist" | head -1)
+    [ -z "$target" ] && exit 0
+    echo "$pos" > "$posf"
+    touch "$flag"
+    tmux switch-client -t "$target"
+    ;;
+esac
