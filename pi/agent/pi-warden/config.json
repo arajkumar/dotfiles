@@ -1,0 +1,17 @@
+{
+  "typesafe": true,
+  "action": {
+    "commandDenyRules": [
+      {
+        "id": "no-git-push",
+        "pattern": "\\bgit(?:\\s+-[-\\w.]*(?:=\\S*)?(?:\\s+(?:\"[^\"]*\"|'[^']*'|[^-\\s]\\S*))?)*\\s+push\\b",
+        "message": "Do not push to remotes. Leave the push to the user."
+      }
+    ]
+  },
+  "rules": {
+    "files": [
+      "$HOME/.pi/agent/pi-warden/rules.md"
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+*
+!.gitignore
+!install.sh
+!web-search.json
+!agent/
+!agent/AGENTS.md
+!agent/settings.json
+!agent/models.json
+!agent/mcp.json
+!agent/extensions/
+!agent/extensions/guardrails.json
+!agent/pi-warden/
+!agent/pi-warden/config.json
+!agent/pi-warden/rules.md

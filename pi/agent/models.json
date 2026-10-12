@@ -1,0 +1,30 @@
+{
+  "providers": {
+    "openrouter": {
+      "compat": {
+        "sendSessionAffinityHeaders": true
+      },
+      "modelOverrides": {
+        "openai/gpt-6.1-sol": {
+          "promptCache": { "short": 1800, "long": 1800 }
+        }
+      }
+    },
+    "neuralwatt": {
+      "modelOverrides": {
+        "glm-5.2": {
+          "compat": {
+            "sendSessionAffinityHeaders": true
+          }
+        },
+        "deepseek-v4-flash": {
+          "compat": {
+            "supportsLongCacheRetention": true,
+            "sendSessionAffinityHeaders": true,
+            "thinkingFormat": "deepseek"
+          }
+        }
+      }
+    }
+  }
+}

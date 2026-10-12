@@ -1,0 +1,40 @@
+{
+  "$schema": "https://unpkg.com/@aliou/pi-guardrails@0.19.0/schema.json",
+  "applyBuiltinDefaults": true,
+  "version": "0.19.0",
+  "onboarding": {
+    "completed": true,
+    "completedAt": "2026-07-13T04:49:54.705Z",
+    "version": "0.13.0-20260619"
+  },
+  "features": {
+    "pathAccess": true,
+    "permissionGate": true
+  },
+  "permissionGate": {
+    "autoDenyPatterns": [
+      {
+        "pattern": "\\bgit\\s+push\\b",
+        "regex": true,
+        "description": "git push is disabled for the pi agent (incremental commits only; leave pushing to the user)."
+      }
+    ]
+  },
+  "pathAccess": {
+    "mode": "ask",
+    "allowedPaths": [
+      {
+        "kind": "file",
+        "path": "/dev/null"
+      },
+      {
+        "kind": "directory",
+        "path": "/opt/homebrew/include"
+      },
+      {
+        "kind": "directory",
+        "path": "~/works/timescale"
+      }
+    ]
+  }
+}

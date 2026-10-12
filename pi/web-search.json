@@ -1,0 +1,7 @@
+{
+  "provider": "openai",
+  "allowBrowserCookies": true,
+  "shortcuts": {
+    "activity": "ctrl+shift+a"
+  }
+}

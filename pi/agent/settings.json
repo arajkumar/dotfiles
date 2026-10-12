@@ -1,0 +1,28 @@
+{
+  "lastChangelogVersion": "1.1.0",
+  "theme": "dark",
+  "packages": [
+    "npm:@aliou/pi-neuralwatt",
+    "npm:pi-cache-optimizer",
+    "npm:@aliou/pi-guardrails",
+    "npm:pi-simplify",
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:@narumitw/pi-plan-mode",
+    "npm:@dietrichgebert/ponytail",
+    "npm:pi-warden"
+  ],
+  "defaultThinkingLevel": "high",
+  "cacheWarming": "idle",
+  "showCacheMissNotices": true,
+  "enabledModels": [
+    "openrouter/openai/gpt-6.1-sol",
+    "anthropic/claude-opus-5-5",
+    "openrouter/z-ai/glm-5.3",
+    "openrouter/moonshotai/kimi-k3",
+    "openrouter/qwen/qwen3.8-27b",
+    "neuralwatt/deepseek-v4.1-flash"
+  ],
+  "defaultProvider": "openrouter",
+  "defaultModel": "openai/gpt-6.1-sol"
+}
