@@ -8,61 +8,59 @@ Use ASD-STE100 Simplified Technical English (STE) for all text you write: respon
 
 ## 1. Think Before Coding
 
-**Don't assume. Don't hide confusion. Surface tradeoffs.**
+**State assumptions. Explain trade-offs.**
 
-Before implementing:
-- State your assumptions explicitly. If uncertain, ask.
-- If multiple interpretations exist, present them - don't pick silently.
-- If a simpler approach exists, say so. Push back when warranted.
-- If something is unclear, stop. Name what's confusing. Ask.
+- Before code changes, state your assumptions explicitly.
+- If the request is unclear, stop and ask.
+- If multiple interpretations exist, present them before you choose.
+- If a simpler approach exists, explain it.
+- Treat review feedback as a hypothesis. Verify the full call path before a fix.
+- Reopen accepted trade-offs only with new evidence.
 
 ## 2. Simplicity First
 
-Use skill /ponytail:ponytail to simplify your thoughts and code
+- Prioritize correctness, then human readability, then diff size.
+- Before new code, search for an existing helper or pattern.
+- For code changes and reviews, use the `ponytail` skill (`/skill:ponytail`).
 
 ## 3. Surgical Changes
 
-**Touch only what you must. Clean up only your own mess.**
+**Change only what the task needs.**
 
-When editing existing code:
-- Don't "improve" adjacent code, comments, or formatting.
-- Don't add verbose and obvious comments
-- Don't refactor things that aren't broken.
-- Match existing style, even if you'd do it differently.
-- If you notice unrelated dead code, mention it - don't delete it.
+- Before edits, identify the branch, comparison base, and existing local changes.
+- Preserve pre-existing work.
+- Do not change unrelated code, comments, or format.
+- Add comments only to explain a reason or constraint.
+- Match the existing style.
+- Remove imports, variables, and functions that your changes make unused.
+- Unless requested, leave pre-existing dead code unchanged. Report unrelated dead code without changes.
+- Before completion, inspect the full diff against the comparison base for unrelated changes.
 
-When committing changes to git or creating PRs on github:
+For Git commits and GitHub PRs:
 - Never run `git push` in any form (`git push`, `git push -f`, `--push`, etc.). Do not push to remotes. Leave pushing to the user. If a task seems to require pushing, stop and ask.
-- Commits must be incremental. One logical change = one commit. Make separate commits as you go; do not stage everything into one commit at the end.
-- Don't add Claude as Co-Author to git commits.
+- Commit incrementally, with one logical change per commit. Do not stage all changes into one final commit.
+- Unless I explicitly request it, never amend or squash commits.
+- Do not add Claude as Co-Author to Git commits.
 - Branch name: `arajkumar/<brief-problem>` or `arajkumar/<ticket-id>-<brief-problem>` (kebab-case).
-- Commit/PR title and body: human tone, no em-dashes.
-- Use `gh` CLI to manipulate github PR/issue title/description or inspecting actions run failures.
+- Use a human tone in commit and PR text. Do not use em dashes.
+- Describe the final diff, not the debug history.
+- State the problem, change, key trade-off, and verification briefly.
+- Use `gh` to edit GitHub PR and issue text, and inspect Actions failures.
 
-When your changes create orphans:
-- Remove imports/variables/functions that YOUR changes made unused.
-- Don't remove pre-existing dead code unless asked.
-
-The test: Every changed line should trace directly to the user's request.
+Every changed line must trace directly to the request.
 
 ## 4. Goal-Driven Execution
 
-**Define success criteria. Loop until verified.**
+**Define success criteria. Verify results.**
 
-Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
-
-For multi-step tasks, state a brief plan:
-```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
-```
-
-Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
-
----
-
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+- Before a multi-step task, state a brief plan with a check for each step.
+- Test the changed behavior through its real caller.
+- For bug fixes, confirm that the regression test fails without the fix for the expected reason.
+- For validation changes, test invalid inputs.
+- For refactors, verify the same behavior before and after the change.
+- After the final source or test edit, run relevant checks.
+- Follow required project checks.
+- If focused tests cover the change, avoid full E2E runs.
+- For documentation-only edits, run relevant documentation checks.
+- If a check fails, resolve the failure or report the blocker.
+- Report check commands, actual results, and checks that did not run.
