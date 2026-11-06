@@ -57,7 +57,7 @@ The ECR deny blocks registry credential extraction.
 The Git push deny also checks common global options.
 
 The local classifier adapter checks shell commands only when Guardrails requests approval.
-It uses `openrouter/typesafe/jev-1.14` and the existing OpenRouter credentials.
+It uses `openrouter/~typesafe/jev-latest` and the existing OpenRouter credentials.
 Only a read-only decision with a probability of at least `0.90` clears the prompt.
 That probability is not a safety guarantee.
 A classifier error, a five-second timeout, or an uncertain result retains the prompt.

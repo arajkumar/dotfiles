@@ -95,6 +95,7 @@ test("a safe shell command bypasses the permission prompt", async () => {
   assert.equal(result, undefined);
   assert.deepEqual(prompts, []);
   assert.equal(requests.length, 1);
+  assert.deepEqual(requests[0][0], { provider: "openrouter", id: "~typesafe/jev-latest" });
   assert.deepEqual(requests[0][1].state, { cwd, command: "git status --short" });
   assert.ok(requests[0][2].signal instanceof AbortSignal);
 });

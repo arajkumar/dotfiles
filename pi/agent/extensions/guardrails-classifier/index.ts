@@ -40,7 +40,7 @@ async function isLowRisk(event: ToolCallEvent, ctx: ExtensionContext): Promise<b
   if (ctx.signal?.aborted) return false;
 
   try {
-    const model = ctx.modelRegistry.findOfType("classifier", "openrouter", "typesafe/jev-1.14");
+    const model = ctx.modelRegistry.findOfType("classifier", "openrouter", "~typesafe/jev-latest");
     if (!model) return false;
     const timeout = AbortSignal.timeout(5_000);
     const signal = ctx.signal ? AbortSignal.any([ctx.signal, timeout]) : timeout;
