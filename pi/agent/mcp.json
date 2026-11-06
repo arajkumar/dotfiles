@@ -12,6 +12,13 @@
         "callbackUrl": "http://localhost:3118/callback"
       },
       "description": "Search Slack and read or send messages"
+    },
+    "tiger": {
+      "command": "tiger",
+      "args": [
+        "mcp",
+        "start"
+      ]
     }
   }
 }

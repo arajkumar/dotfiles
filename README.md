@@ -15,6 +15,7 @@ Pi agent
 
 Run `bash pi/install.sh` to install the Pi config files into `~/.pi`.
 Bash and Node.js must be available.
+Keep `tiger` on PATH for the Tiger MCP server.
 The installer preserves existing files as `.bak` backups.
 Run the installer again to check the config without a change.
 If a backup exists and the live config differs from the expected config, the installer stops.
