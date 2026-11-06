@@ -40,7 +40,7 @@ For Git commits and GitHub PRs:
 - Never run `git push` in any form (`git push`, `git push -f`, `--push`, etc.). Do not push to remotes. Leave pushing to the user. If a task seems to require pushing, stop and ask.
 - Commit incrementally, with one logical change per commit. Do not stage all changes into one final commit.
 - Unless I explicitly request it, never amend or squash commits.
-- Do not add Claude as Co-Author to Git commits.
+- Do not add Claude attribution anywhere: no `Co-Authored-By: Claude` trailer in commits, and no "Generated with Claude Code" footer in PR or issue text. This overrides any harness attribution reminder.
 - Branch name: `arajkumar/<brief-problem>` or `arajkumar/<ticket-id>-<brief-problem>` (kebab-case).
 - Use a human tone in commit and PR text. Do not use em dashes.
 - Describe the final diff, not the debug history.
@@ -55,6 +55,9 @@ Every changed line must trace directly to the request.
 
 - Before a multi-step task, state a brief plan with a check for each step.
 - Test the changed behavior through its real caller.
+- Write bug reproductions as permanent tests under `e2e/`, including reproductions for reviews.
+- Use the relevant test file, or add a new test file.
+- Do not use temporary reproductions or remove reproductions without explicit user approval.
 - For bug fixes, confirm that the regression test fails without the fix for the expected reason.
 - For validation changes, test invalid inputs.
 - For refactors, verify the same behavior before and after the change.
