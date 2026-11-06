@@ -1,27 +1,175 @@
 {
-  "$schema": "https://unpkg.com/@aliou/pi-guardrails@0.19.0/schema.json",
+  "$schema": "https://unpkg.com/@aliou/pi-guardrails@0.21.0/schema.json",
   "applyBuiltinDefaults": true,
-  "version": "0.19.0",
+  "version": "0.21.0",
   "onboarding": {
     "completed": true,
-    "completedAt": "2026-07-13T04:49:54.705Z",
     "version": "0.13.0-20260619"
   },
   "features": {
+    "policies": true,
     "pathAccess": true,
     "permissionGate": true
+  },
+  "policies": {
+    "rules": [
+      {
+        "id": "credential-files",
+        "description": "Deny credential files and session-token files.",
+        "protection": "noAccess",
+        "onlyIfExists": false,
+        "respectCwd": false,
+        "blockMessage": "Access to {file} is blocked. Credential and session-token files are not available to the agent.",
+        "patterns": [
+          {
+            "pattern": "(?:^|/)(?:auth|mcp-auth|credentials|\\.credentials|secrets|tokens?|sessions?|session[-_]tokens?|access[-_]tokens?|refresh[-_]tokens?|storage[-_]?state|cookies?)(?:\\.(?:json|ya?ml|toml|ini|conf|db|sqlite3?|txt|csv))(?:-(?:wal|shm|journal))?$",
+            "regex": true
+          },
+          {
+            "pattern": ".env*"
+          },
+          {
+            "pattern": "*.env"
+          },
+          {
+            "pattern": "*.env.*"
+          },
+          {
+            "pattern": ".npmrc"
+          },
+          {
+            "pattern": ".pypirc"
+          },
+          {
+            "pattern": ".netrc"
+          },
+          {
+            "pattern": ".pgpass"
+          },
+          {
+            "pattern": ".git-credentials"
+          },
+          {
+            "pattern": ".gitcookies"
+          },
+          {
+            "pattern": ".claude.json"
+          },
+          {
+            "pattern": "*.key"
+          },
+          {
+            "pattern": "*.pem"
+          },
+          {
+            "pattern": "*.p12"
+          },
+          {
+            "pattern": "*.pfx"
+          },
+          {
+            "pattern": "*.jks"
+          },
+          {
+            "pattern": "id_rsa"
+          },
+          {
+            "pattern": "id_ed25519"
+          },
+          {
+            "pattern": "id_ecdsa"
+          },
+          {
+            "pattern": "id_dsa"
+          },
+          {
+            "pattern": "Cookies"
+          },
+          {
+            "pattern": "Cookies-journal"
+          },
+          {
+            "pattern": "*.tfstate*"
+          }
+        ]
+      },
+      {
+        "id": "credential-stores",
+        "description": "Deny credential directories and agent session stores.",
+        "protection": "noAccess",
+        "onlyIfExists": false,
+        "respectCwd": false,
+        "blockMessage": "Access to {file} is blocked. This store can contain credentials or session tokens.",
+        "patterns": [
+          {
+            "pattern": "(?:^|/)(?:\\.ssh|\\.gnupg|\\.aws|\\.azure|\\.kube|\\.docker)(?:/|$)",
+            "regex": true
+          },
+          {
+            "pattern": "(?:^|/)\\.config/(?:gh|gcloud|op|sops|rclone|google-chrome|chromium|BraveSoftware|microsoft-edge)(?:/|$)",
+            "regex": true
+          },
+          {
+            "pattern": "(?:^|/)\\.pi/agent/sessions(?:/|$)",
+            "regex": true
+          },
+          {
+            "pattern": "(?:^|/)\\.mozilla/firefox(?:/|$)",
+            "regex": true
+          },
+          {
+            "pattern": "(?:^|/)\\.local/share/keyrings(?:/|$)",
+            "regex": true
+          },
+          {
+            "pattern": "(?:^|/)Library/(?:Keychains|Cookies|Safari)(?:/|$)",
+            "regex": true
+          },
+          {
+            "pattern": "(?:^|/)Library/Application Support/(?:Google/Chrome|Chromium|Firefox|BraveSoftware/Brave-Browser|Microsoft Edge)(?:/|$)",
+            "regex": true
+          }
+        ]
+      }
+    ]
   },
   "permissionGate": {
     "autoDenyPatterns": [
       {
-        "pattern": "\\bgit\\s+push\\b",
+        "pattern": "\\bgit(?:\\s+(?:-[Cc]\\s*(?:\"[^\"\\n]*\"|'[^'\\n]*'|[^\\s;&|]+)|--(?:git-dir|work-tree|namespace|config-env)(?:=|\\s+)(?:\"[^\"\\n]*\"|'[^'\\n]*'|[^\\s;&|]+)|--(?:no-pager|paginate|bare|no-optional-locks|literal-pathspecs|no-replace-objects)|-[pP]))*\\s+push\\b",
         "regex": true,
         "description": "git push is disabled for the pi agent (incremental commits only; leave pushing to the user)."
+      },
+      {
+        "pattern": "(?:^|[;&|()\\n])\\s*(?:[^\\s;&|()]*/)?(?:env(?:\\s+--?[A-Za-z0-9=-]+)*|set|export(?:\\s+-p)?)\\s*(?=$|[;&|()\\n])|\\b(?:printenv|(?:declare|typeset)\\s+-[A-Za-z]*[px][A-Za-z]*)\\b",
+        "regex": true,
+        "description": "Environment and shell-state dumps can expose credentials or session tokens."
+      },
+      {
+        "pattern": "\\b(?:process\\.env|os\\.environ|Deno\\.env|Bun\\.env|getenv)\\b|\\bENV\\s*\\[|\\$\\{?[A-Za-z0-9_]*(?:TOKEN|token|SECRET|secret|PASSWORD|password|PASSWD|passwd|API_KEY|api_key|SESSION|session|CREDENTIAL|credential|AUTH|auth|COOKIE|cookie)[A-Za-z0-9_]*",
+        "regex": true,
+        "description": "Direct access to credential or session-token variables is disabled."
+      },
+      {
+        "pattern": "\\b(?:gh\\s+auth\\s+(?:token|status\\s+(?:--show-token|-t))|gcloud\\s+auth\\s+(?:print-access-token|print-identity-token|application-default\\s+print-access-token)|az\\s+account\\s+get-access-token|aws\\s+(?:configure\\s+(?:get|export-credentials)|sso\\s+get-role-credentials|sts\\s+(?:assume-role|get-session-token|get-federation-token)))\\b",
+        "regex": true,
+        "description": "Cloud and CLI credential or session-token extraction is disabled."
+      },
+      {
+        "pattern": "\\baws\\b[^\\n;&|]*\\becr(?:-public)?\\b[^\\n;&|]*\\b(?:get-login-password|get-authorization-token|get-login)\\b",
+        "regex": true,
+        "description": "ECR credential extraction is disabled."
+      },
+      {
+        "pattern": "\\b(?:security\\s+(?:find-generic-password|find-internet-password|dump-keychain|export)|kubectl\\s+config\\s+view\\s+--raw|git\\s+credential(?:-[\\w-]+)?\\s+(?:fill|get)|docker-credential-[\\w-]+\\s+get|op\\s+(?:read|item\\s+get)|bw\\s+get|vault\\s+(?:read|kv\\s+get)|secret-tool\\s+(?:lookup|search)|pass\\s+show)\\b",
+        "regex": true,
+        "description": "Keychain and credential-manager extraction is disabled."
       }
     ]
   },
   "pathAccess": {
     "mode": "ask",
+    "applyTo": "write",
     "allowedPaths": [
       {
         "kind": "file",
@@ -30,10 +178,6 @@
       {
         "kind": "directory",
         "path": "/opt/homebrew/include"
-      },
-      {
-        "kind": "directory",
-        "path": "~/works/timescale"
       }
     ]
   }

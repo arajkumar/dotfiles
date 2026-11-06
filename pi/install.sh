@@ -9,6 +9,7 @@ files=(
   agent/models.json
   agent/mcp.json
   agent/extensions/guardrails.json
+  agent/extensions/guardrails-classifier/index.ts
   agent/pi-warden/config.json
   agent/pi-warden/rules.md
   web-search.json

@@ -9,6 +9,10 @@
 !agent/mcp.json
 !agent/extensions/
 !agent/extensions/guardrails.json
+!agent/extensions/guardrails-classifier/
+!agent/extensions/guardrails-classifier/index.ts
+!tests/
+!tests/guardrails-classifier.test.mjs
 !agent/pi-warden/
 !agent/pi-warden/config.json
 !agent/pi-warden/rules.md
