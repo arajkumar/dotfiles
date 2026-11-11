@@ -37,7 +37,7 @@ Use ASD-STE100 Simplified Technical English (STE) for all text you write: respon
 - Before completion, inspect the full diff against the comparison base for unrelated changes.
 
 For Git commits and GitHub PRs:
-- Never run `git push` in any form (`git push`, `git push -f`, `--push`, etc.). Do not push to remotes. Leave pushing to the user. If a task seems to require pushing, stop and ask.
+- Push code only to non-default branches. Never push to the remote's default branch, `main`, or `master`. Before each push, verify the destination remote, its default branch, and every destination branch. If you cannot verify them, stop and ask.
 - Commit incrementally, with one logical change per commit. Do not stage all changes into one final commit.
 - Unless I explicitly request it, never amend or squash commits.
 - Do not add Claude attribution anywhere: no `Co-Authored-By: Claude` trailer in commits, and no "Generated with Claude Code" footer in PR or issue text. This overrides any harness attribution reminder.
@@ -45,6 +45,8 @@ For Git commits and GitHub PRs:
 - Use a human tone in commit and PR text. Do not use em dashes.
 - Describe the final diff, not the debug history.
 - State the problem, change, key trade-off, and verification briefly.
+- Focus PR descriptions on the core fix, key risks, and a brief check result.
+- Put extra detail in collapsed `<details>` sections with clear `<summary>` labels.
 - Use `gh` to edit GitHub PR and issue text, and inspect Actions failures.
 
 Every changed line must trace directly to the request.
